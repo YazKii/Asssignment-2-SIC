@@ -28,7 +28,7 @@ if oled:
     oled.text("Menghubungkan WiFi", 0, 20)
     oled.show()
 
-wlan.connect("Labkom01", "0123456789")
+wlan.connect("NAYAYA", "Nayaya 041625")
 
 timeout = 10
 while not wlan.isconnected() and timeout > 0:
@@ -52,11 +52,12 @@ else:
         oled.show()
 
 UBIDOTS_ENDPOINT = "https://industrial.api.ubidots.com/api/v1.6/devices/esp-sigma/"
-flask_endpoint = "http://192.168.0.140:5003/save"
+flask_endpoint = "http://192.168.1.11:5002/save"
 
 sensor = dht.DHT11(machine.Pin(25))
 
 while True:
+    time.sleep(2)
     sensor.measure()
     suhu = sensor.temperature()
     kelembaban = sensor.humidity()
@@ -81,7 +82,7 @@ while True:
 
     try:
         response = urequests.post(UBIDOTS_ENDPOINT, json=data, headers=headers)
-        print(f"Response Ubidots: {response.status_code}")
+        print(f"Respon Ubidots: {response.status_code}")
         response.close()
     except:
         print("Gagal mengirim ke Ubidots")
@@ -90,9 +91,10 @@ while True:
     
     try:
         response = urequests.post(flask_endpoint, json=data, headers=headers)
-        print(f"Response Flask (MongoDB): {response.status_code}")
+        print(f"Respon Flask (MongoDB): {response.status_code}")
         response.close()
     except:
         print("Gagal mengirim ke Flask (MongoDB)")
 
     time.sleep(5) 
+
