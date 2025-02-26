@@ -4,7 +4,6 @@ import os
 
 app = Flask(__name__)
 
-# Gunakan variabel lingkungan untuk menyimpan URI MongoDB
 mongoDBku = os.getenv("MONGODB_URI", "mongodb+srv://sigma:sigma@has.k1ypw.mongodb.net/?retryWrites=true&w=majority&appName=Has")
 DBku = "sic"
 koleksyen = "sigma"
@@ -20,7 +19,6 @@ def save_data():
         suhu = data.get("suhu")
         kelembaban = data.get("kelembaban")
 
-        # Validasi input
         if suhu is None or kelembaban is None:
             return jsonify({"error": "Suhu dan kelembaban harus diisi!"}), 400
         if not isinstance(suhu, (int, float)) or not isinstance(kelembaban, (int, float)):
